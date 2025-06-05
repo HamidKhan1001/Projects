@@ -1,0 +1,61 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Image Captioning</title>
+
+  <!-- Link to your custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h1>AI Image Captioning</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash-message">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data">
+      <input id="imageInput" type="file" name="image_file" accept="image/*" required />
+      <button type="submit">Generate Caption</button>
+    </form>
+
+    <!-- Image Preview (display only if user has selected a file) -->
+    <img id="preview" class="preview" style="display:none;" />
+
+    <!-- If caption is available, show it -->
+    {% if caption %}
+      <div class="caption-box">
+        <h2>Caption:</h2>
+        <p>{{ caption }}</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Optional JS to preview the image before upload -->
+  <script>
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("preview");
+    input.addEventListener("change", () => {
+      const file = input.files[0];
+      if (!file) {
+        preview.style.display = "none";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Ignore virtual environments
+venv/
+__pycache__/
+
+# Ignore model checkpoints (if you load them from Hugging Face at runtime)
+*.bin
+*.ckpt
+*.pt
+
+# Ignore any large data folders you don’t want in source control
+*.zip
+*.tar.gz
+*.h5
+
+# (Optional) If you generated screenshots or test images:
+static/uploads/
